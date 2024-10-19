@@ -1,12 +1,12 @@
 import tkinter as tk
 from tkinter import messagebox
 # from Homepage import Homepage
-class PythonLoopsQuizPage(tk.Frame):
+class AiReaLWorldApplicationsAiQuizPage(tk.Frame):
     counter = 0 # class variable to keep track of the number of times the page is opened
 
     def __init__(self, master):
         super().__init__(master)
-        PythonLoopsQuizPage.counter += 1 # increment the counter whenever the page is opened
+        AiReaLWorldApplicationsAiQuizPage.counter += 1 # increment the counter whenever the page is opened
         
         # Frame that contains canvas and scrollbar
         self.mainframe = tk.Frame(master, padx=3, pady=12,bg="lightblue")
@@ -42,16 +42,15 @@ class PythonLoopsQuizPage(tk.Frame):
         self.label.grid(row=0, column=0, sticky=tk.NS, pady=10)
 
         # Example questions
-        self.create_question(self.inner_frame, 1, "", "1. What is the purpose of the while loop in Python?", ["To execute a block of code repeatedly until a condition is false", "To iterate over items in a sequence", "To execute a block of code a fixed number of times"], "To execute a block of code repeatedly until a condition is false")
-        self.create_question(self.inner_frame, 2, "", "2. What is the syntax for a while loop in Python?", ["while (condition):", "while loop condition:", "while condition:"], "while condition:")
-        self.create_question(self.inner_frame, 3, "num = 5\nwhile num > 0:\n    print(num)\n    num -= 1\nif num == 0:\n    print('All done!')", "3. What prints if the code snippet above ran?", ["5 4 3 2 1", "5 4 3 2 1 All done", "Error"], "5 4 3 2 1 All done")
-        self.create_question(self.inner_frame, 4, "", "4. What is the purpose of the for loop in Python?", ["To execute a block of code a fixed number of times", "To define a function", "To iterate over items in a sequence"], "To iterate over items in a sequence")
-        self.create_question(self.inner_frame, 5, "fruits = ['apple', 'banana', 'orange']\nfor fruit in fruits:\n    print(fruit]", "5. What would print if the code snippet above ran?", ["apple, banana, orange", "0 1 2", "['apple', 'banana', 'orange']"], "apple, banana, orange")
-    
+        self.create_question(self.inner_frame, 1, "1. Which of the following is an example of AI in healthcare?", ["Automated stock trading systems", "AI-powered systems assisting in medical diagnoses through image analysis", "AI generating movie recommendations on streaming platforms"], "AI-powered systems assisting in medical diagnoses through image analysis")
+        self.create_question(self.inner_frame, 2, "2. How is AI commonly used in the finance industry?", ["Fraud detection by analyzing transactional data", "Providing face recognition for unlocking devices", "Writing personalized customer emails"], "Fraud detection by analyzing transactional data")
+        self.create_question(self.inner_frame, 3, "3. AI is widely used in the automotive industry to do what?", ["Manufacture car parts using robots", "Enhance engine performance", "Develop self-driving cars using sensors and machine learning algorithms"], "Develop self-driving cars using sensors and machine learning algorithms")
+        self.create_question(self.inner_frame, 4, "4. Which of the following is a common application of AI in e-commerce?", ["Personalized product recommendations based on browsing history", "Using AI for customer service training", "AI-generated customer product reviews"], "Personalized product recommendations based on browsing history")
+        self.create_question(self.inner_frame, 5, "5. How is AI applied in agriculture?", ["Monitoring crop health and optimizing irrigation through machine learning", "Forecasting global economic trends", "Automating financial record-keeping"], "Monitoring crop health and optimizing irrigation through machine learning")
 
         # Button to check answers
         self.check_button = tk.Button(self.inner_frame, text="Check answers", command=self.check_answers)
-        self.check_button.grid(row=25, column=0, sticky=tk.W, pady=10)
+        self.check_button.grid(row=21, column=0, sticky=tk.W, pady=10)
         
         # self.return_button = tk.Button(self.inner_frame, text="Return to Homepage", command=self.return_to_homepage)
         # self.return_button.grid(row=22, column=0, sticky=tk.W, pady=10)
@@ -60,27 +59,21 @@ class PythonLoopsQuizPage(tk.Frame):
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
         # Set the canvas width to match the inner frame
         self.canvas.itemconfig(self.canvas.create_window((0, 0), window=self.inner_frame, anchor="nw"), width=self.canvas.winfo_width())
-    def create_question(self, parent, num, code_snippet, question_text, options, correct_answer):
-        # Display code snippet in a Label widget with formatting for code
-        if code_snippet:  # Only create the code label if there is a code snippet
-            code_label = tk.Label(parent, text=code_snippet, bg="lightgray", fg="black", font=("Courier", 10), justify="left", anchor="w", width=40, height=8)  # Set width and height
-            code_label.grid(row=num*5-5, column=0, sticky=tk.W, pady=10)  # Add extra padding to the bottom (20)
-        
-        # Display the question as a label
+    def create_question(self, parent, num, question_text, options, correct_answer):
         question_var = tk.StringVar(value=question_text)
-        question_label = tk.Label(parent, textvariable=question_var)
-        question_label.grid(row=num*5-4, column=0, sticky=tk.W, pady=10)
-
-        # Create the answer options as radio buttons
         answer_var = tk.StringVar()
+
+        question_label = tk.Label(parent, textvariable=question_var)
+        question_label.grid(row=num*4-3, column=0, sticky=tk.W, pady=10)
 
         for i, option in enumerate(options):
             answer_option = tk.Radiobutton(parent, text=option, variable=answer_var, value=option)
-            answer_option.grid(row=num*5-3+i, column=0, sticky=tk.W, padx=20)  # Add padding to separate options from the edge
+            answer_option.grid(row=num*4-2+i, column=0, sticky=tk.W)
 
         # Store references for checking
         setattr(self, f'answer{num}', answer_var)
         setattr(self, f'correct_answer{num}', correct_answer)
+
     def check_answers(self):
         correct = 0
         for i in range(1, 6):
@@ -99,6 +92,6 @@ class PythonLoopsQuizPage(tk.Frame):
 if __name__ == '__main__':
     root = tk.Tk()
     root.geometry('800x600')
-    quiz_page = PythonLoopsQuizPage(root)
+    quiz_page = AiReaLWorldApplicationsAiQuizPage(root)
     root.mainloop()
 
