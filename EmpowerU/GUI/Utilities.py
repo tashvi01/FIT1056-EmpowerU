@@ -34,13 +34,13 @@ def fullscreen(self,master):
     Written by: Tommy Nguyen
     """
 
-        #fullscreen needs master parameter because of tk.Frame doesn't have geometry() method 
-        # Fullscreen information learnt from geeksforgeeks.org 1/10/2024: https://www.geeksforgeeks.org/how-to-create-full-screen-window-in-tkinter/
+    #fullscreen needs master parameter because of tk.Frame doesn't have geometry() method 
+    # Fullscreen information learnt from geeksforgeeks.org 1/10/2024: https://www.geeksforgeeks.org/how-to-create-full-screen-window-in-tkinter/
 
-        #obtaining width and height of screen
-        width = self.winfo_screenwidth()
-        height = self.winfo_screenheight()
+    #obtaining width and height of screen
+    width = self.winfo_screenwidth()
+    height = self.winfo_screenheight()
 
-        #makes window match screen geometry
-        #geometry() method called with master (tk.Tk instance) instead of self which is the frame
-        master.geometry(f"{width}x{height}")
+    #makes window match screen geometry
+    #geometry() method called with master (tk.Tk instance) instead of self which is the frame
+    master.geometry(f"{width}x{height}")
