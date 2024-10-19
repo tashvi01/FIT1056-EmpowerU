@@ -18,3 +18,29 @@ def switch_frame(current_frame, FrameClass):
     # Create a new frame instance and pack it
     new_frame = FrameClass(current_frame.master)
     new_frame.grid(row=0, column=0, sticky="nsew")
+
+
+def fullscreen(self,master):
+
+    """
+    fullscreens the widget window
+
+    Parameter(s):
+    master: Parent window or widget
+
+    return(s):
+    None
+
+    Written by: Tommy Nguyen
+    """
+
+        #fullscreen needs master parameter because of tk.Frame doesn't have geometry() method 
+        # Fullscreen information learnt from geeksforgeeks.org 1/10/2024: https://www.geeksforgeeks.org/how-to-create-full-screen-window-in-tkinter/
+
+        #obtaining width and height of screen
+        width = self.winfo_screenwidth()
+        height = self.winfo_screenheight()
+
+        #makes window match screen geometry
+        #geometry() method called with master (tk.Tk instance) instead of self which is the frame
+        master.geometry(f"{width}x{height}")
