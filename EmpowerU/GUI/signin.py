@@ -48,13 +48,22 @@ class SignIn(tk.Frame):
         self.alert_label = tk.Label(self.mainframe, textvariable=self.alert_var, fg="red")
         self.alert_label.grid(row=4, column=0, columnspan=2, pady=5)  # Center alert message
 
+        #Admin login
+        self.var = tk.IntVar()
+        self.admin_button = tk.Checkbutton(self.mainframe, text="Admin Login",variable=self.var, command = self.admin_login)
+        self.admin_button.grid(row=5, column=0, columnspan=2, pady=5)
+
         # Create sign-in button
         self.signin_button = tk.Button(self.mainframe, text="Sign In", command= self.sign_in)
-        self.signin_button.grid(row=5, column=1, padx=10, pady=5)
+        self.signin_button.grid(row=6, column=1, padx=10, pady=5)
 
         # Create sign-out button
         self.signout_button = tk.Button(self.mainframe, text="Sign Out", command=self.sign_out)
-        self.signout_button.grid(row=5, column=0, padx=10, pady=5)
+        self.signout_button.grid(row=6, column=0, padx=10, pady=5)
+
+    def admin_login(self):
+        from Admin_login import AdminLogin
+        switch_frame(self, AdminLogin)
 
     def authenticate(self, username_input, password_input):
         """
@@ -105,6 +114,7 @@ class SignIn(tk.Frame):
         
     def hide_signin_page(self):
         self.mainframe.grid_forget()
+
     def sign_out(self):
         """
         Goes back to the initial screen.
