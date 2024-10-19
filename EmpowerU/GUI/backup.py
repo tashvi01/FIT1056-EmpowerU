@@ -58,20 +58,48 @@ class Backup():
         cr = conn.cursor()
         cr.execute("CREATE DATABASE IF NOT EXISTS EmpowerU")
         cr.execute("USE EmpowerU")
-        cr.execute("SELECT * FROM forumData")  # Ensure forumData table exists
+        cr.execute("SELECT * FROM forumData")  
         forum_data = cr.fetchall()
 
         try:
             with open("Forum_backup.csv", "w+", newline="") as f:
                 writer = csv.writer(f)
-                column_header = ["id", "username", "post"]  # Assuming these are the columns
+                column_header = ["id", "username", "post"]  
                 writer.writerow(column_header)
                 for post in forum_data:
                     writer.writerow(post)
         except EOFError:
             conn.commit()
             conn.close()
+    
+    def backup_admin(self):
+        """
+        Backup all admin data to a CSV file.
 
+        Parameter(s):
+        None
+
+        Return(s): 
+        None
+        """
+        conn = pm.connect(host='localhost', user='root', password='FIT1056')
+        cr = conn.cursor()
+        cr.execute("CREATE DATABASE IF NOT EXISTS EmpowerU")
+        cr.execute("USE EmpowerU")
+        cr.execute("SELECT * FROM admin")  
+        admin_data = cr.fetchall()
+
+        try:
+            with open("admin.csv", "w+", newline="") as f:
+                writer = csv.writer(f)
+                column_header = ["id", "password", "username"] 
+                writer.writerow(column_header)
+                for admin in admin_data:
+                    writer.writerow(admin)
+        except EOFError:
+            conn.commit()
+            conn.close()
+            
     def populate_table(self):
         """
         Initializes the database and populates tables with data when opened on every laptop.
@@ -89,7 +117,7 @@ class Backup():
 
             cr.execute("CREATE DATABASE IF NOT EXISTS EmpowerU")
             cr.execute("USE EmpowerU")
-            cr.execute("""
+            cr.execute(""" 
                 CREATE TABLE IF NOT EXISTS students (
                     first_name VARCHAR(20),
                     last_name VARCHAR(20),
@@ -102,7 +130,6 @@ class Backup():
             """)
             print("Students table created or exists.")
 
-            # New forumData table creation with primary key
             cr.execute("""
                 CREATE TABLE IF NOT EXISTS forumData (
                     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -112,6 +139,16 @@ class Backup():
             """)
             print("Forum data table created or exists.")
 
+            cr.execute("""
+                CREATE TABLE IF NOT EXISTS admin (
+                    id varchar(20),
+                    password VARCHAR(20),
+                    username VARCHAR(20)
+                )
+            """)
+            print("Admin table created or exists.")
+
+            # Populate students table from backup CSV
             cr.execute("SELECT * FROM students")
             rows = cr.fetchall()
             print(f"Number of rows in 'students' table: {len(rows)}")
@@ -120,11 +157,11 @@ class Backup():
                 try:
                     with open("Register_backup.csv", "r") as f:
                         reader = csv.reader(f)
-                        next(reader)  # Skip header row if present
+                        next(reader) 
                         print("CSV file opened successfully.")
 
                         for row in reader:
-                            if len(row) == 7:  # Ensure each row has exactly 7 fields
+                            if len(row) == 7: 
                                 values_tuple = (row[0], row[1], row[2], row[3], row[4], row[5], row[6])
                                 cr.execute("""
                                     INSERT INTO students (first_name, last_name, DOB, email, contact_number, username, password)
@@ -134,6 +171,32 @@ class Backup():
                                 print(f"Skipping invalid row: {row}")
                 except FileNotFoundError:
                     print("Error: The CSV file 'Register_backup.csv' was not found.")
+                except Exception as e:
+                    print(f"Error reading CSV: {e}")
+
+            # Populate admin table from admin CSV
+            cr.execute("SELECT * FROM admin")
+            admin_rows = cr.fetchall()
+            print(f"Number of rows in 'admin' table: {len(admin_rows)}")
+
+            if len(admin_rows) == 0:
+                try:
+                    with open("admin.csv", "r") as f:
+                        reader = csv.reader(f)
+                        next(reader)  
+                        print("Admin CSV file opened successfully.")
+
+                        for row in reader:
+                            if len(row) == 3:  
+                                admin_values_tuple = (row[0],row[1], row[2])  
+                                cr.execute("""
+                                    INSERT INTO admin (id, password, username)
+                                    VALUES (%s, %s, %s)
+                                """, admin_values_tuple)
+                            else:
+                                print(f"Skipping invalid row: {row}")
+                except FileNotFoundError:
+                    print("Error: The CSV file 'admin.csv' was not found.")
                 except Exception as e:
                     print(f"Error reading CSV: {e}")
 
