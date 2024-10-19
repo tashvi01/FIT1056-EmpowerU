@@ -29,10 +29,11 @@ class PythonConditionalQuizPage(tk.Frame):
 
         # Frame inside the canvas
         self.inner_frame = tk.Frame(self.canvas)
-        self.canvas.create_window((0, 0), window=self.inner_frame, anchor="nw")
+        self.canvas.create_window((0, 0), window=self.inner_frame, anchor="nw", width=self.canvas.winfo_width(), height=self.canvas.winfo_height())
         self.inner_frame.bind("<Configure>", self.on_inner_frame_configure)
 
         # Make inner_frame expand to fill the canvas
+        
         self.inner_frame.grid_columnconfigure(0, weight=1)
 
         # Content within the inner_frame
