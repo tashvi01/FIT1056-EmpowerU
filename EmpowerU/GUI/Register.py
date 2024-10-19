@@ -1,14 +1,3 @@
-"""
-FIT1056 Project: EmpowerU
-Group: Monday G1
-
-This file contains class definition of Register class
-
-It creates a Register GUI and allows users to register.
-
-Written by: Tashvi Vig
-"""
-
 import tkinter as tk
 from tkinter import messagebox
 import pymysql as pm
@@ -17,15 +6,6 @@ from Utilities import switch_frame
 
 class Register(tk.Frame):
     def __init__(self, master=None):  
-        """
-        Constructor for the Register Class
-
-        Parameter(s):
-        Master : master widget of this widget instance
-
-        Return(s):
-        None    
-        """
         super().__init__(master) 
         self.master = master
         self.mainframe = tk.Frame(master)
@@ -35,17 +15,6 @@ class Register(tk.Frame):
         self.grid_columnconfigure(0, weight=1)
 
     def create_widgets(self):
-        """
-        Creates widgets that are to be displayed in the Register window
-
-        Parameters(s):
-        none
-
-        Return(s):
-        none
-
-        """
-         
         self.first_name_var = tk.StringVar()
         self.last_name_var = tk.StringVar()
         self.dob_var = tk.StringVar()
@@ -107,16 +76,6 @@ class Register(tk.Frame):
         self.return_button.pack(padx=10, pady=10)
 
     def reset_and_return(self):
-        """
-        Resets all fields and switches to the login screen.
-        
-        Parameter(s):
-        None
-
-        Return(s):
-        None
-        """
-
         self.first_name_var.set("")
         self.last_name_var.set("")
         self.dob_var.set("")
@@ -126,59 +85,49 @@ class Register(tk.Frame):
         self.password_var.set("")
         self.alert_var.set("") 
 
-        # Switch to the LoginScreen
         from Initial_window_GUI import LoginScreen
         switch_frame(self, LoginScreen)
 
-
-
     def check(self):
-        """
-        Checks whether the date and contact number entered is valid. If it is the calls data_to_sql()
-
-        Parameter(s):
-        none
-
-        Return(s):
-        Boolean
-        
-        """
-        # Clear previous alerts
         self.alert_var.set("")
-
         is_valid = True
+        error_messages = []
 
         # Validate date of birth
         if not self.is_valid_date_format(self.dob_var.get()):
-            self.alert_var.set("Invalid date format. Please enter in DD/MM/YYYY.")
+            error_messages.append("Invalid date format. Please enter in DD/MM/YYYY.")
             self.dob_var.set("")  
             self.dob_inp_entry.focus_set() 
             is_valid = False
 
         # Validate contact number
         if not self.is_valid_contact_number(self.contact_number_var.get()):
-            self.alert_var.set("Invalid contact number. It must be 10 digits.")
-            # Reset the contact number field and set focus to it
-            self.contact_number_var.set("")  # Clear the contact number field
-            self.contact_number_inp_entry.focus_set()  # Set focus back to the contact number field
+            error_messages.append("Invalid contact number. It must be 10 digits and should be unique.")
+            self.contact_number_var.set("")
+            self.contact_number_inp_entry.focus_set()
             is_valid = False
 
+        # Check for existing email and username
+        if not self.is_unique_email(self.email_var.get()):
+            error_messages.append("This email is already registered.")
+            self.email_var.set("")  
+            self.email_inp_entry.focus_set()
+            is_valid = False
+            
+        if not self.is_unique_username(self.username_var.get()):
+            error_messages.append("This username is already taken.")
+            self.username_var.set("")  
+            self.username_inp_entry.focus_set()
+            is_valid = False
+
+        if error_messages:
+            self.alert_var.set("\n".join(error_messages))
         if not is_valid:
             return False
         else:
             self.data_to_sql()
 
     def data_to_sql(self):
-        """
-        Forms a connection with sql and makes a database and a table with the new students login details
-
-        Parameter(s):
-        None
-
-        Return(s): 
-        None
-        """
-
         first_name_value = self.first_name_var.get()
         last_name_value = self.last_name_var.get()
         dob_value = self.dob_var.get()
@@ -187,11 +136,11 @@ class Register(tk.Frame):
         username_value = self.username_var.get()
         password_value = self.password_var.get()
 
-        conn= pm.connect(host='localhost', user='root', password='FIT1056') 
-        cr=conn.cursor() 
-        cr.execute("create database if not exists EmpowerU") 
-        cr.execute("use EmpowerU") 
-        cr.execute("create table if not exists students (first_name varchar(20), last_name varchar(20), DOB date, email varchar(20), contact_number varchar(20), username varchar(20), password varchar(20))") 
+        conn = pm.connect(host='localhost', user='root', password='FIT1056') 
+        cr = conn.cursor() 
+        cr.execute("CREATE DATABASE IF NOT EXISTS EmpowerU") 
+        cr.execute("USE EmpowerU") 
+        cr.execute("CREATE TABLE IF NOT EXISTS students (first_name VARCHAR(20), last_name VARCHAR(20), DOB DATE, email VARCHAR(20) UNIQUE, contact_number VARCHAR(20), username VARCHAR(20) UNIQUE, password VARCHAR(20))") 
         dob_formatted = f"{dob_value[6:]}-{dob_value[3:5]}-{dob_value[:2]}"  # Converts to 'YYYY-MM-DD'
         values_tuple = (first_name_value, last_name_value, dob_formatted, email_value, int(contact_number_value), username_value, password_value)
         cr.execute("INSERT INTO students (first_name, last_name, DOB, email, contact_number, username, password) VALUES (%s, %s, %s, %s, %s, %s, %s)", values_tuple)
@@ -200,60 +149,49 @@ class Register(tk.Frame):
         conn.close()
 
         messagebox.showinfo("Success", "Data has been stored successfully!")
-        backup_instance = Backup
-        backup_instance.backup_register(self,values_tuple)
+        backup_instance = Backup()
+        backup_instance.backup_register(values_tuple)
 
         from Initial_window_GUI import LoginScreen
         switch_frame(self, LoginScreen)
 
     def is_valid_contact_number(self, contact_num):
-        """
-        Checks whether the contact number is entered is in the right format
-
-        Parameters:
-        contact_num (Str) : The contact number that has been provided as an input
-
-        Output:
-        Returns boolean
-        
-        """
-
-        self.contact_num = contact_num
-
-        if len(self.contact_num) == 10:
-            if self.contact_num.isdigit():
-                return True
-            else:
-                return False
-        else:
+    # Check if the contact number is valid (10 digits)
+        if len(contact_num) != 10 or not contact_num.isdigit():
             return False
-        
+
+        # Check if the contact number is unique in the database
+        conn = pm.connect(host='localhost', user='root', password='FIT1056')
+        cr = conn.cursor()
+        cr.execute("USE EmpowerU")
+        cr.execute("SELECT COUNT(*) FROM students WHERE contact_number = %s", (contact_num,))
+        exists = cr.fetchone()[0] > 0
+        conn.close()
+
+        return not exists
+
+    def is_unique_email(self, email):
+        conn = pm.connect(host='localhost', user='root', password='FIT1056')
+        cr = conn.cursor()
+        cr.execute("USE empoweru")
+        cr.execute("SELECT COUNT(*) FROM students WHERE email = %s", (email,))
+        exists = cr.fetchone()[0] > 0
+        conn.close()
+        return not exists
+
+    def is_unique_username(self, username):
+        conn = pm.connect(host='localhost', user='root', password='FIT1056')
+        cr = conn.cursor()
+        cr.execute("USE empoweru")
+        cr.execute("SELECT COUNT(*) FROM students WHERE username = %s", (username,))
+        exists = cr.fetchone()[0] > 0
+        conn.close()
+        return not exists
+
     def is_leap_year(self, year):
-        """
-        This function checks if the year is a leap year.
-
-        Parameters:
-        - year: int
-
-        Returns:
-        bool - True if given year is a leap year, False otherwise
-        """
-    
-        # Utilising Python smart evaluation
         return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
-    
+
     def is_date_valid(self, day, month, year):
-        """
-        This function checks whether the given date exists in the Gregorian calendar.
-
-        Parameters:
-        - day: int, (converted) integer value of the day
-        - month: int, (converted) integer value of the month
-        - year: int, (converted) integer value of the year in the Gregorian calendar
-
-        Returns:
-        bool - True if the given date exists in the Gregorian calendar, False otherwise
-        """
         valid_days = None
         valid_months = range(1, 13)
 
@@ -269,34 +207,18 @@ class Register(tk.Frame):
             return False
 
         return day in valid_days and month in valid_months and 0 <= year <= 2006
-    
-    def is_valid_date_format(self,input_date_value):
-        """
-        This function checks whether the string value input by the user is 
-        a valid date (on or before 2006) *AND* presented in DD/MM/YYYY format
 
-        Parameters:
-        - input_date_value: str; the value provided by the user
-
-        Returns:
-        bool - True if input value is a valid date in DD/MM/YYYY format (on or before 2006), 
-            False otherwise
-        """
-
+    def is_valid_date_format(self, input_date_value):
         numeric_chars = "0123456789"
 
         if len(input_date_value) == 10 and input_date_value[2] == "/" and input_date_value[5] == "/":
             day, month, year = input_date_value.split("/")
-
             if (all([char in numeric_chars for char in day]) 
                 and all([char in numeric_chars for char in month]) 
                 and all([char in numeric_chars for char in year])):
-
-            # if day.isdigit() and month.isdigit() and year.isdigit():
                 day = int(day)
                 month = int(month)
                 year = int(year)
                 return self.is_date_valid(day, month, year)
 
         return False
-
