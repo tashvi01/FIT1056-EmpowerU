@@ -4,6 +4,7 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
 from classes.Student import Student
+#test test
 class Profile(tk.Frame):
     def __init__(self,master,student_user):
         super().__init__(master)
