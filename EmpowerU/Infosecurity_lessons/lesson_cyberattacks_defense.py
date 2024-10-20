@@ -1,4 +1,4 @@
-# Lesson 2.2 Cyberattack Types
+# Lesson 2.3 Cyberattacks Defense
 import tkinter as tk
 # from Homepage import Homepage
 class lesson_cyberattacks_defense(tk.Frame):
