@@ -45,7 +45,7 @@ class lesson_Conditionals(tk.Frame):
         self.lesson_label = tk.Label(self.inner_frame, text="Lesson 1.2:\nConditionals", font=("Arial Bold", 20))
         self.lesson_label.grid(row=1, column=0, sticky=tk.S, padx=10, pady=10)
         # Lesson text
-        self.lesson_text = tk.Label(self.inner_frame, text="""You will encounter more advanced functionalities and subtle changes in programs than the ones you 
+        self.lesson_text = tk.Label(self.inner_frame, justify="left", text="""        You will encounter more advanced functionalities and subtle changes in programs than the ones you 
         are likely capable of at the moment. For example, a messaging app might only set a message’s title bold 
         if it has not been read by the user. Or a video game needs to update the position of all the characters 
         that are not asleep. This is done with something called a conditional statement.
@@ -94,11 +94,12 @@ class lesson_Conditionals(tk.Frame):
         
         The syntax for an if/elif/else statement looks like this:
 
-if BOOLEAN EXPRESSION:\n                                                      STATEMENTS_1 # executed if condition evaluates to True
-  elif BOOLEAN EXPRESSION:\n                                                        STATEMENTS_2 # executed if condition evaluates to True 
-                                                                                    when the condition before it is false
-else:                                          \n                                                                       STATEMENTS_3 # executed if condition before it evaluates to False 
-                                                    (and is reached)
+        if BOOLEAN EXPRESSION:
+            STATEMENTS_1 # executed if condition evaluates to True
+        elif BOOLEAN EXPRESSION:                                                       
+            STATEMENTS_2 # executed if condition evaluates to True when the condition before it is false
+        else:
+            STATEMENTS_3 # executed if condition before it evaluates to False (and is reached)
                                     
         The boolean expression after the if statement is called the condition. If it is true, then the indented 
         statements get executed. If not, then the condition of elif is checked. It it is true then the indented
