@@ -1,7 +1,7 @@
 # Lesson 1.3 Loops
 import tkinter as tk
 # from Homepage import Homepage
-class lesson_Conditionals(tk.Frame):
+class lesson_Loops(tk.Frame):
     counter = 0 # class variable to keep track of the number of times the page is opened
 
     def __init__(self, master):
@@ -144,6 +144,6 @@ class lesson_Conditionals(tk.Frame):
 if __name__ == '__main__':
     root = tk.Tk()
     root.geometry('800x600')
-    quiz_page = lesson_Conditionals(root)
+    quiz_page = lesson_Loops(root)
     root.mainloop()
 
