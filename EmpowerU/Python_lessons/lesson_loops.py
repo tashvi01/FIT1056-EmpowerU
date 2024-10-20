@@ -104,36 +104,36 @@ class lesson_Loops(tk.Frame):
         
         for name in ["Joe", "Amy", "Brad", "Angelina", "Zuki", "Thandi", "Paris"]:
             print("Hi", name, "Please come to my party on Saturday!")
+                                    
         Here’s how it works:
+        name in this for statement is called the loop variable or, alternatively, the iterator variable.
 
-            name in this for statement is called the loop variable or, alternatively, the iterator variable.
+        The list of names in the square brackets is the sequence over which we will iterate.
 
-            The list of names in the square brackets is the sequence over which we will iterate.
+        Line 2 is the loop body. The loop body is always indented. The indentation determines exactly what 
+        statements are “in the loop”. The loop body is performed one time for each name in the list.
 
-            Line 2 is the loop body. The loop body is always indented. The indentation determines exactly what 
-            statements are “in the loop”. The loop body is performed one time for each name in the list.
+        On each iteration or pass of the loop, first a check is done to see if there are still more items to 
+        be processed. If there are none left (this is called the terminating condition of the loop), the loop 
+        has finished. Program execution continues at the next statement after the loop body.
 
-            On each iteration or pass of the loop, first a check is done to see if there are still more items to 
-            be processed. If there are none left (this is called the terminating condition of the loop), the loop 
-            has finished. Program execution continues at the next statement after the loop body.
+        If there are items still to be processed, the loop variable is updated to refer to the next item in 
+        the list. This means, in this case, that the loop body is executed here 7 times, and each time name 
+        will refer to a different friend.
 
-            If there are items still to be processed, the loop variable is updated to refer to the next item in 
-            the list. This means, in this case, that the loop body is executed here 7 times, and each time name 
-            will refer to a different friend.
+        At the end of each execution of the body of the loop, Python returns to the for statement, to see if 
+        there are more items to be handled.
 
-            At the end of each execution of the body of the loop, Python returns to the for statement, to see if 
-            there are more items to be handled.
+        The overall syntax is for <loop_var_name> in <sequence>:
 
-            The overall syntax is for <loop_var_name> in <sequence>:
+        Between the words for and in, there must be a variable name for the loop variable. You can’t put a 
+        whole expression there.
 
-            Between the words for and in, there must be a variable name for the loop variable. You can’t put a 
-            whole expression there.
+        A colon is required at the end of the line
 
-            A colon is required at the end of the line
-
-            After the word in and before the colon is an expression that must evaluate to a sequence 
-            (e.g, a string or a list or a tuple). It could be a literal, or a variable name, or a more complex 
-            expression.""", font=("Arial", 11))
+        After the word in and before the colon is an expression that must evaluate to a sequence 
+        (e.g, a string or a list or a tuple). It could be a literal, or a variable name, or a more complex 
+        expression.""", font=("Arial", 11))
         self.lesson_text.grid(row=2, column=0, sticky=tk.S, padx=10, pady=10)
     def on_inner_frame_configure(self, event):
     # Update scrollregion to include the whole inner frame
