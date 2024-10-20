@@ -42,7 +42,7 @@ class lesson_Loops(tk.Frame):
         self.label.image = self.logo
         self.label.grid(row=0, column=0, sticky=tk.NS, pady=10)
         # Lesson label
-        self.lesson_label = tk.Label(self.inner_frame, text="Lesson 1.2:\Loops", font=("Arial Bold", 20))
+        self.lesson_label = tk.Label(self.inner_frame, text="Lesson 1.3:\nLoops", font=("Arial Bold", 20))
         self.lesson_label.grid(row=1, column=0, sticky=tk.S, padx=10, pady=10)
         # Lesson text
         self.lesson_text = tk.Label(self.inner_frame, justify="left", text="""        Computers are often used to automate repetitive tasks. Repeating identical or similar tasks without 
