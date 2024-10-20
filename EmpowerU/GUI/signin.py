@@ -1,7 +1,11 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
 import tkinter as tk
 import pymysql as pm
 import os
 from Utilities import switch_frame
+from classes.Student import Student
 
 class SignIn(tk.Frame):
     def __init__(self, master):
@@ -58,7 +62,7 @@ class SignIn(tk.Frame):
         self.signin_button.grid(row=6, column=1, padx=10, pady=5)
 
         # Create sign-out button
-        self.signout_button = tk.Button(self.mainframe, text="Sign Out", command=self.sign_out)
+        self.signout_button = tk.Button(self.mainframe, text="Return", command=self.sign_out)
         self.signout_button.grid(row=6, column=0, padx=10, pady=5)
 
     def admin_login(self):
@@ -89,14 +93,28 @@ class SignIn(tk.Frame):
         if result is None:
             self.alert_var.set("Invalid username or password. Please try again.")
         else:
-            #show hompeage
-            pass
+
+            first_name = result[0]  # Adjust based on your table structure
+            last_name = result[1]
+            date_of_birth = result[2]
+            email = result[3]
+            contact_number = result[4]
+            username = result[5]
+            password = result[6]
+
+            student = Student(first_name, last_name, date_of_birth, email, contact_number, username, password)
+            print(result)
+
+            from Homepage import Homepage  
+            switch_frame(self, lambda master: Homepage(master, student))
+
 
         self.username_var.set("")
         self.password_var.set("")
 
         conn.commit()
         conn.close()
+        return result
 
     def sign_in(self):
         """
