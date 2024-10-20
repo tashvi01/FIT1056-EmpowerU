@@ -26,22 +26,40 @@ class Homepage(tk.Frame):
         self.mainframe.grid_rowconfigure(0, weight=1)
         self.mainframe.grid_rowconfigure(1, weight=1)  
         self.mainframe.grid_rowconfigure(2, weight=1)
-
+        self.mainframe.grid_rowconfigure(3, weight=1)
+        self.mainframe.grid_rowconfigure(4, weight=1)
         self.mainframe.grid_columnconfigure(0, weight=1)
         self.mainframe.grid_columnconfigure(1, weight=1)  
         self.mainframe.grid_columnconfigure(2, weight=1)
             
 
-        self.logo = tk.PhotoImage(file="../images/logo.png")
-        self.logo_label = tk.Label(self.mainframe,image=self.logo)
-        self.logo_label.grid(row = 1, column=2,sticky="e",padx=30,pady=10)
+        self.logo = tk.PhotoImage(file="logo.png")
+        self.logo_label = tk.Label(self.mainframe,image=self.logo,width = 310, height = 310)
+        self.logo_label.grid(row = 2,column=2,sticky="se",padx=30,pady=10)
 
-        #TODO replace placeholder with functions
-        #LESSON PLACEHOLDER
-        self.lesson_label = tk.Label(self.mainframe,text="LESSON PLACEHOLDER", font=20, bg = "lightblue").grid(row = 0 , column=0, rowspan=2)
+    
+
+        #Python lesson button
+        #image from https://www.epl.ca/blogs/post/code-in-the-cold/
+        self.python_button_img = tk.PhotoImage(file="python_logo.PNG")
+        #TODO add command to buttons
+        self.python_lesson_button = tk.Button(self.mainframe,image = self.python_button_img,height= 150, width = 350,bg="lightblue")
+        self.python_lesson_button.grid(column= 0, row = 1,sticky = "s")
+
+        #info security lesson button
+        #image from https://dxc.com/au/en/offerings/security
+        self.infosec_img = tk.PhotoImage(file="infosecurity_logo.PNG")
+        self.infosec_button = tk.Button(self.mainframe,image=self.infosec_img,height=150,width=350,bg = "lightblue")
+        self.infosec_button.grid(column=1,row=1,sticky = "s")
+
+        #Introduction to ai lesson button
+        self.intro_ai_img = tk.PhotoImage(file="intro_ai_logo.PNG")
+        self.intro_ai_button = tk.Button(self.mainframe,image = self.intro_ai_img, height=150, width=350, bg="lightblue")
+        self.intro_ai_button.grid(column=2, row=1,sticky = "s")
+    
         #FORUM PLACEHOLDER
         self.forum_label = tk.Label(self.mainframe,text= "FORUM PLACEHOLD",font=20,bg = "lightblue")
-        self.forum_label.grid(row=1,rowspan=2, column=0)
+        self.forum_label.grid(row=2,rowspan=2, column=0)
 
         
         
