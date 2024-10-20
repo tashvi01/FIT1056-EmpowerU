@@ -32,7 +32,7 @@ class Homepage(tk.Frame):
         self.mainframe.grid_columnconfigure(2, weight=1)
             
 
-        self.logo = tk.PhotoImage(file="logo.png")
+        self.logo = tk.PhotoImage(file="../images/logo.png")
         self.logo_label = tk.Label(self.mainframe,image=self.logo)
         self.logo_label.grid(row = 1, column=2,sticky="e",padx=30,pady=10)
 
