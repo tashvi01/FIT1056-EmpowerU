@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-# from Homepage import Homepage
+from Utilities import switch_frame
 class AiProsAndConsAiQuizPage(tk.Frame):
     counter = 0 # class variable to keep track of the number of times the page is opened
 
@@ -52,8 +52,8 @@ class AiProsAndConsAiQuizPage(tk.Frame):
         self.check_button = tk.Button(self.inner_frame, text="Check answers", command=self.check_answers)
         self.check_button.grid(row=21, column=0, sticky=tk.W, pady=10)
         
-        # self.return_button = tk.Button(self.inner_frame, text="Return to Homepage", command=self.return_to_homepage)
-        # self.return_button.grid(row=22, column=0, sticky=tk.W, pady=10)
+        self.return_to_homepage_button = tk.Button(self.inner_frame, text="Return to Homepage", command=self.return_to_homepage)
+        self.return_to_homepage_button.grid(row=21, column=1, sticky=tk.W, pady=10)
     def on_inner_frame_configure(self, event):
         # Update scrollregion to include the whole inner frame
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
@@ -84,11 +84,9 @@ class AiProsAndConsAiQuizPage(tk.Frame):
             messagebox.showinfo("Quiz Result", "Congratulations, you scored 5/5!")
         else:
             messagebox.showinfo("Quiz Result", f"Sorry, you scored {correct}/5.")
-    # Uncomment when Tom remakes the homepage
-    # def return_to_homepage(self):
-    #     student_homepage = Homepage(self.master)
-    #     self.destroy()
-    #     student_homepage.fullscreen(self.master)
+    def return_to_homepage(self):
+        from Homepage import Homepage
+        switch_frame(self, Homepage)
 if __name__ == '__main__':
     root = tk.Tk()
     root.geometry('800x600')

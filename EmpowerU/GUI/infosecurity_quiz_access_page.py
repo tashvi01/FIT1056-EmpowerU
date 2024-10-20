@@ -35,6 +35,9 @@ class AIQuizAccessPage(tk.Frame):
         self.python_quiz_name_3.button = tk.Button(self, text="Start quiz", font=button_font, command=lambda: switch_frame(self, InfoSecuityHelpDuringCyberAttacksQuizPage), bg="lightblue")
         self.python_quiz_name_3.button.grid(row=3, column=1)
 
+        self.return_to_homepage_button = tk.Button(self, text="Return to Homepage", font=button_font, command=self.return_to_homepage, bg="lightblue")
+        self.return_to_homepage_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
+
         self.grid_rowconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
         self.grid_rowconfigure(2, weight=1)
@@ -45,6 +48,9 @@ class AIQuizAccessPage(tk.Frame):
         self.grid(sticky="nsew")  # Ensures the frame fills the window when shown
         self.master.grid_rowconfigure(0, weight=1)
         self.master.grid_columnconfigure(0, weight=1)
+    def return_to_homepage(self):
+        from Homepage import Homepage
+        switch_frame(self, Homepage)
 if __name__ == '__main__':
     root = tk.Tk()
     root.geometry('800x600')
