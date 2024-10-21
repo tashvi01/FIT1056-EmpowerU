@@ -1,1 +1,3 @@
-For this program to run, you must have installed SQL and have it running on your machine
+For this program to run, you must have installed SQL and have it running on your machine, and have Tkinter
+SQL database password:FIT1056
+to access database: Use empoweru;
