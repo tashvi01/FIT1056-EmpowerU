@@ -28,7 +28,7 @@ def test_is_valid_contact_number():
     reg = Register()
     #Valid contact numbers
     assert reg.is_valid_contact_number("0412345678")  == True 
-    assert reg.is_valid_contact_number("1234567890") == True
+    assert reg.is_valid_contact_number("1234567891") == True
 
     #invalid contact numbers
     assert reg.is_valid_contact_number("12456789") == False #1 digit not enough, off-point
